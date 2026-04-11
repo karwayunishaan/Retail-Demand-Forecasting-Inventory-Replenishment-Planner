@@ -7,12 +7,12 @@ def extract():
     """
     Extracts datasets from local storage.
     """
-    calendar_og = pd.read_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\calendar.csv')
-    inventory_og = pd.read_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\inventory_daily.csv')
-    purchase_orders_og = pd.read_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\purchase_orders.csv')
-    sales_daily_og = pd.read_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\sales_daily.csv')
-    stores_og = pd.read_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\stores.csv')
-    products_og = pd.read_json('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\Retail Demand Forecasting & Inventory Replenishment Planner\\products.json')
+    calendar_og = pd.read_csv('../Retail Demand Forecasting & Inventory Replenishment Planner/calendar.csv')
+    inventory_og = pd.read_csv('../Retail Demand Forecasting & Inventory Replenishment Planner/inventory_daily.csv')
+    purchase_orders_og = pd.read_csv('../Retail Demand Forecasting & Inventory Replenishment Planner/purchase_orders.csv')
+    sales_daily_og = pd.read_csv('../Retail Demand Forecasting & Inventory Replenishment Planner/sales_daily.csv')
+    stores_og = pd.read_csv('../Retail Demand Forecasting & Inventory Replenishment Planner/stores.csv')
+    products_og = pd.read_json('../Retail Demand Forecasting & Inventory Replenishment Planner/products.json')
     
     return calendar_og, inventory_og, purchase_orders_og, sales_daily_og, stores_og, products_og
 
@@ -148,16 +148,16 @@ def transform(calendar_og, inventory_og, purchase_orders_og, sales_daily_og, sto
 
     return fact_sales_store_sku_daily, fact_inventory_store_sku_daily, replenishment_inputs_store_sku
 
-def load(fact_sales, fact_inventory, replenishment_plan):
+def load(fact_sales_store_sku_daily, fact_inventory_store_sku_daily, replenishment_inputs_store_sku):
     """
     Saves the curated datasets to CSV.
     """
-    if not os.path.exists('curated_dts'):
-        os.makedirs('curated_dts')
-        
-    fact_sales.to_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\sampler\\fact_sales_store_sku_daily.csv', index=False)
-    fact_inventory.to_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\sampler\\fact_inventory_store_sku_daily.csv', index=False)
-    replenishment_plan.to_csv('C:\\Users\\ishaan karwayun\\OneDrive - Symbiosis International University\\Desktop\\BITSOM\\Retail_demand_and_inventory_planner\\sampler\\replenishment_inputs_store_sku.csv', index=False)
+    output_folder = '../sampler'
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    fact_sales_store_sku_daily.to_csv(f'{output_folder}/fact_sales_store_sku_daily.csv', index=False)
+    fact_inventory_store_sku_daily.to_csv(f'{output_folder}/fact_inventory_store_sku_daily.csv', index=False)
+    replenishment_inputs_store_sku.to_csv(f'{output_folder}/replenishment_inputs_store_sku.csv', index=False)
     print("ETL Pipeline completed successfully. Files saved in 'sampler/'.")
 
 if __name__ == "__main__":
